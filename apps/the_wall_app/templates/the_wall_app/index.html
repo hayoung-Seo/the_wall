@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Login & Registration</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'the_wall_app/css/style.css' %}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    </head>
+    <body class="container-fluid">
+        {% if messages %}
+            {% for message in messages %}
+                {% if 'no_login' in message.extra_tags %}
+                    {{message}}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <div class="row">
+            <div class="col">
+                <h2 class="">Registration</h2>
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        {% if 'register' in message.extra_tags %}
+                        <li {% if message.tags %} class="{{message.tags}}" {%endif%}>{{message}}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <form action="register" method="post">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <label for="first_name" class="col-sm-4">First Name:</label>
+                        <input type="text" class="form-control col-sm-7" id="first_name" name="first_name" 
+                            {% if messages %} value="{{request.session.temp_inputs.first_name}}" {%endif%}>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="last_name" class="col-sm-4">Last Name:</label>
+                        <input type="text" class="form-control col-sm-7" id="last_name" name="last_name"
+                            {% if messages %} value="{{request.session.temp_inputs.last_name}}" {%endif%}>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-4">Email:</label>
+                        <input type="text" class="form-control col-sm-7" id="email" name="email"
+                        {% if messages %} value="{{request.session.temp_inputs.email}}" {%endif%}>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="bday" class="col-sm-4">Birthday:</label>
+                        <input type="date" class="form-control col-sm-7" id="bday" name="bday"
+                            {% if messages %} value="{{request.session.temp_inputs.birthday}}" {%endif%}>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="password" class="col-sm-4">Password:</label>
+                        <input type="password" class="form-control col-sm-7" id="password" name="password">
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="confirm_password" class="col-sm-4">Confirm PW:</label>
+                        <input type="password" class="form-control col-sm-7" id="confirm_password" name="confirm_password">
+                    </div>
+
+                    <button type="submit" class="btn btn-success offset-sm-5">Register</button>
+                </form>
+            </div>
+
+            <div class="col">
+                <h2 class="">Login</h2>
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if 'login' in message.extra_tags %}
+                            <p class="error">{{message}}</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <form action="login" method="post">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <label for="login_email" class="col-sm-4">Email:</label>
+                        <input type="text" class="form-control col-sm-7" id="login_email" name="login_email">
+                    </div>
+                    <div class="form-group row">
+                        <label for="login_pw" class="col-sm-4">Password:</label>
+                        <input type="password" class="form-control col-sm-7" id="login_pw" name="login_pw">
+                    </div>
+                    <button type="submit" class="btn btn-success offset-sm-5">Login</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
